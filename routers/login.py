@@ -1,3 +1,4 @@
+
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from models import LoginRequest, LoginResponse, User
@@ -45,3 +46,4 @@ async def login(request: LoginRequest, db: Session = Depends(get_db)):
         print(f"Error generating token: {e}")
         raise HTTPException(status_code=500, detail="토큰 생성 중 오류가 발생했습니다.")    
     
+

@@ -16,6 +16,8 @@ DB_CONFIG = {
     "database": "iamhere",
     "charset": "utf8mb4"
 }
+
 SECRET_KEY = "mysecretkey"
 ALGORITHM = "HS256" # 24시
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 # 24시간
+

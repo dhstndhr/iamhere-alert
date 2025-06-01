@@ -45,6 +45,6 @@ def send_fcm_v1(token: str, title: str, body: str):
     print(f"✅ FCM 응답: {response.status_code} / {response.text}")
 
 # 테스트 실행
-#send_fcm_v1(TARGET_TOKEN, "2차 출석 요청", "지문 인증을 해주세요!")
+send_fcm_v1(TARGET_TOKEN, "2차 출석 요청", "지문 인증을 해주세요!")
 
 

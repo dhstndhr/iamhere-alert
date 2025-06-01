@@ -8,7 +8,11 @@ from fastapi.openapi.utils import get_openapi
 
 from monitor.monitor_second_check import monitor_attendance
 from scheduler.scheduler import start_scheduler
+
 from routers import bluetooth_api, second_check_api, attendance_api, statistics_api, login
+
+from fastapi.middleware.cors import CORSMiddleware
+
 from admin_router import attendance, summary, alerts
 from fastapi.openapi.utils import get_openapi
 #from scheduler import monitor_attendance

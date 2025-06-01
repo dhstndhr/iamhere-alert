@@ -1,6 +1,10 @@
 from sqlalchemy import Integer, Column, BigInteger, String, Enum, Time, Date, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.orm import declarative_base, relationship
 from pydantic import BaseModel
+
+from typing import Optional
+
+
 Base = declarative_base()
 
 # ✅ users 테이블
@@ -72,12 +76,23 @@ class Attendance(Base):
     check_in = Column(TIMESTAMP)
     status = Column(Enum('1차출석완료', '1차출석실패', '2차출석완료', '2차출석실패', '2차출석제외'), nullable=False)
 
+
+
+
+
+# 로그인 요청을 위한 모델
+from pydantic import BaseModel
+from typing import Optional
+
 class LoginResponse(BaseModel):
     access_token: str
     token_type: str
     user_name: str
     user_id: str
 
+
 class LoginRequest(BaseModel):
     login_id: str
     password: str
+
+
