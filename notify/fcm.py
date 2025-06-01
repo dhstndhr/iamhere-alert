@@ -7,7 +7,9 @@ import json
 SERVICE_ACCOUNT_FILE = "credentials/firebase-key.json"
 
 # 메시지 전송 대상 토큰
-TARGET_TOKEN = "ds9pxuaKQj-evFC5Zkg-Bw:APA91bE1Nf0oPwpA6Hfw3GKqdcjIumCs02Rqx7tkuOezxnZ_geZCdvM5bWZVWXzHRb2d0p_0V6-mflMmMeFUDeH5Nu7fDfrHBYJDzcuusWlLJuE5910KZiQ"
+#TARGET_TOKEN = "ds9pxuaKQj-evFC5Zkg-Bw:APA91bE1Nf0oPwpA6Hfw3GKqdcjIumCs02Rqx7tkuOezxnZ_geZCdvM5bWZVWXzHRb2d0p_0V6-mflMmMeFUDeH5Nu7fDfrHBYJDzcuusWlLJuE5910KZiQ"
+
+TARGET_TOKEN = "f_Jq0BwTRu2hkQUkqkD1MX:APA91bG35kH9jbk1FXlvL2_Yw32c1jD84aJmWRObFT-S08fIy6yPkk5rWvS6hGV8-elhMrXBCz4k5zzqzZgiaFTvCsS8Aro-WcnIic8e1dELTUC-uYjiNYw"
 
 def get_access_token():
     credentials = service_account.Credentials.from_service_account_file(

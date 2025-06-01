@@ -23,7 +23,7 @@ def get_all_attendances(db: Session = Depends(get_db)):
         AttendanceResponse(
             attendance_id=a.attendance_id,
             name=u.name,
-            student_id=u.student_id,
+            student_id=str(u.user_id), #student_id=>u.userID,
             status=a.status,
             check_in=a.check_in
         )

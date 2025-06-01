@@ -1,15 +1,17 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from db import get_db
-from models import Attendance
 from datetime import date
 from pydantic import BaseModel
 from typing import List
 
+from models import User,Attendance
+from admin_router.auth.get_current_user import get_current_user
+
 router = APIRouter()
 
 @router.post("/attendance/first-check")
-def first_attendance_check(user_id: int, db: Session = Depends(get_db)):
+def first_attendance_check(user_id: int= Depends(get_current_user), db: Session = Depends(get_db)):
     # 여기선 단순히 출석 성공으로 가정
     from notify.post_alert import send_post_attendance_alert
 
@@ -24,7 +26,7 @@ class CalendarRecord(BaseModel):
     status: str
 
 @router.get("/attendance/today")
-def get_today_attendance(user_id: int, db: Session = Depends(get_db)):
+def get_today_attendance(user_id: int= Depends(get_current_user), db: Session = Depends(get_db)):
     today = date.today()
     records = db.query(Attendance).filter(
         Attendance.user_id == user_id,
@@ -41,7 +43,7 @@ def get_today_attendance(user_id: int, db: Session = Depends(get_db)):
     ]
 
 @router.get("/attendance/calendar", response_model=List[CalendarRecord])
-def get_attendance_calendar(user_id: int, db: Session = Depends(get_db)):
+def get_attendance_calendar(user_id: int= Depends(get_current_user), db: Session = Depends(get_db)):
     results = db.query(Attendance).filter(
         Attendance.user_id == user_id
     ).all()
@@ -51,21 +53,4 @@ def get_attendance_calendar(user_id: int, db: Session = Depends(get_db)):
         for r in results
     ]
 
-@router.get("/attendance/today-lecture")
-def get_today_lecture(user_id: int, db: Session = Depends(get_db)):
-    today = date.today()
-    attendance = db.query(Attendance).filter(
-        Attendance.user_id == user_id,
-        Attendance.check_in >= today
-    ).first()
-
-    if not attendance:
-        return {"title": "오늘은 수업 없음", "day": "", "time": ""}
-
-    lecture = db.query(Lecture).filter(Lecture.lecture_id == attendance.lecture_id).first()
-    return {
-        "title": lecture.title,
-        "day": lecture.day,
-        "time": f"{lecture.start_time.strftime('%H:%M')} - {lecture.end_time.strftime('%H:%M')}"
-    }
 

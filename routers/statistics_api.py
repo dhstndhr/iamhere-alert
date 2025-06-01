@@ -3,11 +3,11 @@ from sqlalchemy.orm import Session
 from db import get_db
 from models import Attendance
 from datetime import date, timedelta
-
+from admin_router.auth.get_current_user import get_current_user
 router = APIRouter()
 
 @router.get("/attendance/statistics")
-def get_statistics(user_id: int, db: Session = Depends(get_db)):
+def get_statistics(user_id: int=Depends(get_current_user), db: Session = Depends(get_db)):
     # 전체 통계
     attended = db.query(Attendance).filter(
         Attendance.user_id == user_id,

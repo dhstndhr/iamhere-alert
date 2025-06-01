@@ -1,25 +1,33 @@
 from sqlalchemy import Integer, Column, BigInteger, String, Enum, Time, Date, ForeignKey, Text, TIMESTAMP
 from sqlalchemy.orm import declarative_base, relationship
-
+from pydantic import BaseModel
 Base = declarative_base()
 
 # ✅ users 테이블
 class User(Base):
     __tablename__ = "users"
     user_id = Column(Integer, primary_key=True)
-    name = Column(String(100))
     role = Column(Enum("학생", "교수"))
     password = Column(String(100))
     login_id = Column(String(100))
-    student_id = Column(String(50))
-    major = Column(String(100))
+    name = Column(String(100), nullable=False)
+    #student_id = Column(String(50))
+    #major = Column(String(100))
     fcm_token = Column(Text)  # ✅ FCM 토큰 필드 추가
+    professor = relationship("Professor", back_populates="user", uselist=False)
 
+# ✅ professor 테이블
+class Professor(Base):
+    __tablename__ = "professors"
+    professor_id = Column(Integer, ForeignKey("users.user_id"), primary_key=True)
+    department = Column(String(255))  # 예시 필드
+    user = relationship("User", back_populates="professor")
 # ✅ lectures 테이블
 class Lecture(Base):
     __tablename__ = "lectures"
 
     lecture_id = Column(BigInteger, primary_key=True, autoincrement=True)
+    professor_id = Column(Integer, nullable=False)
     title = Column(String(255), nullable=False)
     day = Column(Enum('월','화','수','목','금'), nullable=False)
     start_time = Column(Time, nullable=False)
@@ -63,3 +71,13 @@ class Attendance(Base):
     mac_address = Column(String(17), ForeignKey("bluetooth_devices.mac_address", ondelete="SET NULL"))
     check_in = Column(TIMESTAMP)
     status = Column(Enum('1차출석완료', '1차출석실패', '2차출석완료', '2차출석실패', '2차출석제외'), nullable=False)
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    user_name: str
+    user_id: str
+
+class LoginRequest(BaseModel):
+    login_id: str
+    password: str

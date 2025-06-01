@@ -1,8 +1,7 @@
 # db.py
 import pymysql
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-
+from sqlalchemy.orm import sessionmaker, declarative_base,Session
 from config import DB_CONFIG
 
 DATABASE_URL = "mysql+pymysql://teamuser:0718@34.64.121.178:3306/iamhere"

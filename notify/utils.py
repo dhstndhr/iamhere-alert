@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from db import SessionLocal
 from models import User
-
-def get_user_token(name: str) -> str | None:
+from typing import Optional
+def get_user_token(name: str)  -> Optional[str]:
     session: Session = SessionLocal()
     try:
         user = session.query(User).filter(User.name == name).first()
